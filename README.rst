@@ -1,6 +1,7 @@
 ======
 Sysctl
 ======
+.. image:: https://travis-ci.org/mrbobbytables/salt-sysctl-formula.svg?branch=master
 
 Formula for managing sysctl parameters
 
