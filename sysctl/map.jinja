@@ -1,0 +1,11 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+{% import_yaml 'sysctl/defaults.yml' as defaults %}
+{% import_yaml 'sysctl/osmap.yml' as osmap %}
+
+{% set os_default = salt['grains.filter_by'](osmap, grain='os_family') %}
+{% do defaults.sysctl.update(os_default) %}
+
+{% set sysctl_settings = salt['pillar.get']('sysctl:lookup', default=defaults.sysctl, merge=True) %}
+

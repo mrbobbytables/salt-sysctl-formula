@@ -1,0 +1,11 @@
+Debian:
+  pkg: procps
+  conf: /etc/sysctl.d
+
+RedHat:
+  pkg: procps-ng
+  conf: /etc/sysctl.conf
+
+Suse:
+  pkg: procps
+  conf: /etc/sysctl.d

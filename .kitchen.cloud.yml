@@ -1,0 +1,55 @@
+---
+driver:
+  name: ec2
+  aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] %>
+  security_group_ids: [ "<%= ENV['AWS_SGROUP_ID'] %>" ]
+  region: us-west-2
+  availability_zone: b
+  instance_type: t2.micro
+  associate_public_ip: true
+
+transport:
+  ssh_key: provision.key
+  connection_timeout: 10
+  connection_retries: 10
+
+provisioner:
+  name: salt_solo
+  formula: sysctl
+  salt_install: bootstrap
+  state_top_from_file: true
+  pillars-from-files:
+    sysctl.sls: pillar.example
+  pillars:
+    top.sls:
+      base:
+        '*':
+          - sysctl
+
+platforms:
+
+  - name: precise
+    transport:
+      username: ubuntu
+    driver:
+      image_search:
+       name: "ubuntu/images/hvm/ubuntu-precise-12.04-amd64-server-*"
+
+  - name: trusty
+    transport:
+      username: ubuntu
+    driver:
+      image_search:
+          name: "ubuntu/images/hvm/ubuntu-trusty-14.04-amd64-server-*"
+
+  - name: vivid
+    transport:
+      username: ubuntu
+    driver:
+      image_search:
+        name: "ubuntu/images/hvm/ubuntu-vivid-15.04-amd64-server-*"
+    provisioner:
+      salt_install: ppa
+      
+suite:
+  - name: sysctl
